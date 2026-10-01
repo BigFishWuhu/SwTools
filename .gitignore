@@ -1,0 +1,11 @@
+node_modules/
+test-results/
+playwright-report/
+debug/
+debug.log
+data/codex.sqlite*
+
+# Root-level account exports may contain session keys and account identifiers.
+/*.json
+!/package.json
+!/package-lock.json

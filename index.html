@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#171916" />
+    <title>召唤师图鉴 · 魔灵收藏工具</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="召唤师图鉴首页">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span>
+          <strong>召唤师图鉴</strong>
+          <small>MONSTER CODEX</small>
+        </span>
+      </a>
+      <nav class="top-actions" aria-label="主要操作">
+        <a class="button secondary" id="guideNavLink" href="guide.html">占领战攻略</a>
+        <button class="button ghost" id="resetButton" type="button" disabled>清除数据</button>
+        <button class="button secondary" id="exportButton" type="button">导出图鉴</button>
+        <button class="button primary" id="importButton" type="button">导入 JSON</button>
+        <input id="fileInput" type="file" accept="application/json,.json" hidden />
+      </nav>
+    </header>
+
+    <main>
+      <section class="overview" aria-labelledby="pageTitle">
+        <div class="overview-copy">
+          <p class="eyebrow">COLLECTION TRACKER</p>
+          <h1 id="pageTitle">你的魔灵，一目了然</h1>
+          <p id="profileLine" class="profile-line">导入 SWEX / 代理导出的账号 JSON，在本机生成图鉴点亮状态。</p>
+          <div class="privacy-note"><span aria-hidden="true">●</span> 数据仅在当前浏览器中处理，不会上传</div>
+        </div>
+        <div class="stats" aria-label="图鉴统计">
+          <article class="stat main-stat">
+            <span class="stat-label">已点亮</span>
+            <strong><span id="ownedCount">0</span><small> / <span id="totalCount">0</span></small></strong>
+            <div class="progress"><span id="progressBar"></span></div>
+            <span class="stat-foot" id="progressText">等待导入</span>
+          </article>
+          <article class="stat">
+            <span class="stat-glyph gold">★</span>
+            <span class="stat-label">三系胎五</span>
+            <strong id="elementalNat5Count">0</strong>
+            <span class="stat-foot" id="elementalNat5Total">共 0 只</span>
+          </article>
+          <article class="stat">
+            <span class="stat-glyph violet">◆</span>
+            <span class="stat-label">光暗胎五</span>
+            <strong id="summonLd5Count">0</strong>
+            <span class="stat-foot" id="summonLd5Total">共 0 只</span>
+          </article>
+        </div>
+      </section>
+
+      <section class="workspace" aria-labelledby="collectionTitle">
+        <div class="workspace-head">
+          <div>
+            <p class="section-kicker">MONSTER ARCHIVE</p>
+            <h2 id="collectionTitle">魔灵图鉴</h2>
+          </div>
+          <div class="workspace-meta">
+            <div class="view-options">
+              <label class="option-toggle">
+                <input id="showNames" type="checkbox" />
+                <span class="toggle-track" aria-hidden="true"><i></i></span>
+                <span>显示名称</span>
+              </label>
+              <label class="option-toggle">
+                <input id="showMissingLd" type="checkbox" />
+                <span class="toggle-track" aria-hidden="true"><i></i></span>
+                <span>显示未点亮光暗胎五</span>
+              </label>
+            </div>
+            <div class="grouping-switch" role="group" aria-label="图鉴分组方式">
+              <button class="active" type="button" data-grouping="element" aria-pressed="true">按属性</button>
+              <button type="button" data-grouping="family" aria-pressed="false">按家族</button>
+            </div>
+            <div class="view-count"><strong id="visibleCount">0</strong> 个结果</div>
+          </div>
+        </div>
+
+        <div class="toolbar">
+          <label class="search-field">
+            <span aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="搜索中英文名、别名或编号" autocomplete="off" />
+          </label>
+          <div class="filter-group" role="group" aria-label="拥有状态">
+            <button class="filter-button active" type="button" data-status="all">全部</button>
+            <button class="filter-button" type="button" data-status="owned">已点亮</button>
+            <button class="filter-button" type="button" data-status="missing">未点亮</button>
+          </div>
+          <label class="select-wrap">
+            <span>星级</span>
+            <select id="starFilter">
+              <option value="featured">胎五 + 光暗胎四</option>
+              <option id="mixedFamilyOption" value="mixed45" hidden disabled>胎四/胎五混合家族</option>
+              <option value="all">全部星级</option>
+              <option value="5">原生五星</option>
+              <option value="4">原生四星</option>
+              <option value="3">原生三星</option>
+              <option value="2">原生二星</option>
+              <option value="1">原生一星</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="element-filters" id="elementFilters" role="group" aria-label="属性筛选">
+          <button class="element-chip active" type="button" data-element="all"><i class="element-dot all"></i>全部属性</button>
+          <button class="element-chip" type="button" data-element="Fire"><i class="element-dot fire"></i>火</button>
+          <button class="element-chip" type="button" data-element="Water"><i class="element-dot water"></i>水</button>
+          <button class="element-chip" type="button" data-element="Wind"><i class="element-dot wind"></i>风</button>
+          <button class="element-chip" type="button" data-element="Light"><i class="element-dot light"></i>光</button>
+          <button class="element-chip" type="button" data-element="Dark"><i class="element-dot dark"></i>暗</button>
+        </div>
+
+        <div class="empty-state" id="emptyState" hidden>
+          <strong>没有符合条件的魔灵</strong>
+          <span>尝试调整搜索词或筛选条件</span>
+        </div>
+        <div class="monster-groups" id="monsterGrid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <div class="drop-overlay" id="dropOverlay" aria-hidden="true">
+      <div><strong>松开即可导入</strong><span>支持 SWEX 导出的 JSON 文件</span></div>
+    </div>
+
+    <dialog class="modal export-modal" id="exportDialog">
+      <form method="dialog" class="modal-panel">
+        <div class="modal-head">
+          <div><p class="section-kicker">EXPORT PNG</p><h2>导出图鉴图片</h2></div>
+          <button class="icon-button" value="cancel" aria-label="关闭" title="关闭">×</button>
+        </div>
+        <p class="modal-copy">选择要出现在分享图中的魔灵范围。未点亮项会以灰色显示。</p>
+        <fieldset class="export-options">
+          <legend>导出范围</legend>
+          <label><input id="exportNat5" type="checkbox" checked /><span><strong>原生五星</strong><small>包含火、水、风、光、暗</small></span></label>
+          <label><input id="exportLd4" type="checkbox" checked /><span><strong>光暗原生四星</strong><small>仅光属性与暗属性</small></span></label>
+          <label><input id="exportVisible" type="checkbox" /><span><strong>当前筛选结果</strong><small>追加当前页面显示的条目</small></span></label>
+        </fieldset>
+        <div class="export-preview-line"><span>预计导出</span><strong id="exportEstimate">0 个魔灵</strong></div>
+        <div class="modal-actions">
+          <button class="button ghost" value="cancel">取消</button>
+          <button class="button primary" id="confirmExport" type="button">生成 PNG</button>
+        </div>
+        <div class="export-progress" id="exportProgress" hidden><span></span><em>正在绘制图鉴…</em></div>
+      </form>
+    </dialog>
+
+    <dialog class="modal edit-modal" id="editDialog">
+      <form method="dialog" class="modal-panel">
+        <div class="modal-head">
+          <div><p class="section-kicker">LOCAL NAMES</p><h2>编辑中文信息</h2></div>
+          <button class="icon-button" value="cancel" aria-label="关闭" title="关闭">×</button>
+        </div>
+        <div class="edit-monster" id="editMonster"></div>
+        <label class="field-label">未觉醒中文名<input id="editNameZh" type="text" maxlength="40" /></label>
+        <label class="field-label">觉醒中文名<input id="editAwakenedNameZh" type="text" maxlength="40" /></label>
+        <label class="field-label">中文别名<textarea id="editAliases" maxlength="500" placeholder="多个别名用逗号或换行分隔"></textarea></label>
+        <p class="local-hint">修改只保存在当前浏览器中，可用于搜索和图片导出。</p>
+        <div class="modal-actions">
+          <button class="button ghost" value="cancel">取消</button>
+          <button class="button primary" id="saveEdit" type="button">保存名称</button>
+        </div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="data/monsters.js"></script>
+    <script src="data/zh-cn.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

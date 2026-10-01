@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#171916" />
+    <title>占领战攻略查询 · 召唤师图鉴</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="guide-page">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="返回召唤师图鉴">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span><strong>召唤师图鉴</strong><small>MONSTER CODEX</small></span>
+      </a>
+      <nav class="top-actions" aria-label="主要操作">
+        <a class="button secondary" href="index.html">返回图鉴</a>
+      </nav>
+    </header>
+
+    <main class="guide-main">
+      <section class="guide-intro">
+        <p class="eyebrow">SWGT SIEGE GUIDE</p>
+        <h1>占领战防守攻略查询</h1>
+        <p>输入中文名、中文别名或首字母，选择三只魔灵后打开 SWGT 防守攻略。</p>
+      </section>
+
+      <section class="guide-search-panel" aria-labelledby="guideSearchTitle">
+        <div class="guide-search-head">
+          <div><p class="section-kicker">MONSTER SEARCH</p><h2 id="guideSearchTitle">搜索魔灵</h2></div>
+          <span id="guideResultCount" class="view-count">输入关键词开始搜索</span>
+        </div>
+        <label class="search-field guide-search-field">
+          <span aria-hidden="true">⌕</span>
+          <input id="guideSearch" type="search" placeholder="中文名、别名、首字母或英文名" autocomplete="off" />
+        </label>
+        <div id="guideResults" class="guide-results" aria-live="polite"></div>
+      </section>
+
+      <section class="guide-tool" aria-labelledby="guideTeamTitle">
+        <div class="guide-tool-head">
+          <div><p class="section-kicker">DEFENSE TEAM</p><h2 id="guideTeamTitle">已选防守队伍</h2><p>点击上方结果加入当前槽位，可点击槽位切换。</p></div>
+          <button class="button ghost" id="clearGuide" type="button">清空队伍</button>
+        </div>
+        <div class="guide-tool-body">
+          <div class="guide-slots" role="group" aria-label="防守队伍槽位">
+            <div class="guide-slot-wrap"><button class="guide-slot active" type="button" data-guide-slot="0"><span class="guide-slot-image"></span><span class="guide-slot-copy"><span>队长</span><strong>未选择</strong><small>点击搜索结果加入</small></span></button><button class="guide-slot-clear" type="button" data-guide-clear="0" aria-label="清空队长" title="清空队长">×</button></div>
+            <div class="guide-slot-wrap"><button class="guide-slot" type="button" data-guide-slot="1"><span class="guide-slot-image"></span><span class="guide-slot-copy"><span>队员 2</span><strong>未选择</strong><small>点击搜索结果加入</small></span></button><button class="guide-slot-clear" type="button" data-guide-clear="1" aria-label="清空队员 2" title="清空队员 2">×</button></div>
+            <div class="guide-slot-wrap"><button class="guide-slot" type="button" data-guide-slot="2"><span class="guide-slot-image"></span><span class="guide-slot-copy"><span>队员 3</span><strong>未选择</strong><small>点击搜索结果加入</small></span></button><button class="guide-slot-clear" type="button" data-guide-clear="2" aria-label="清空队员 3" title="清空队员 3">×</button></div>
+          </div>
+          <div class="guide-actions">
+            <button class="button ghost" id="editGuideMonster" type="button" disabled>编辑当前魔灵</button>
+            <a class="button primary disabled" id="guideLink" href="#" target="_blank" rel="noopener" aria-disabled="true" tabindex="-1">打开 SWGT 攻略</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="modal edit-modal" id="guideEditDialog">
+      <form method="dialog" class="modal-panel">
+        <div class="modal-head"><div><p class="section-kicker">MONSTER INFO</p><h2>编辑魔灵信息</h2></div><button class="icon-button" value="cancel" aria-label="关闭" title="关闭">×</button></div>
+        <div class="edit-monster" id="guideEditMonsterPreview"></div>
+        <label class="field-label">未觉醒中文名<input id="guideEditNameZh" type="text" maxlength="40" /></label>
+        <label class="field-label">觉醒中文名<input id="guideEditAwakenedNameZh" type="text" maxlength="40" /></label>
+        <div class="field-label"><span>中文别名</span><div class="alias-editor"><div class="alias-list" id="guideAliasList"></div><div class="alias-add"><input id="guideAliasInput" type="text" maxlength="40" placeholder="输入一个别名" /><button class="button ghost" id="addGuideAlias" type="button">添加别名</button></div></div></div>
+        <p class="local-hint">保存到本地 SQLite，可添加多个别名并用于搜索。</p>
+        <div class="modal-actions"><button class="button ghost" value="cancel">取消</button><button class="button primary" id="saveGuideEdit" type="button">保存信息</button></div>
+      </form>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="data/monsters.js"></script>
+    <script src="data/zh-cn.js"></script>
+    <script src="assets/vendor/pinyin-pro.js"></script>
+    <script src="guide.js"></script>
+  </body>
+</html>

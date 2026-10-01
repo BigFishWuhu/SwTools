@@ -1,0 +1,17 @@
+{
+  "name": "summoners-war-codex",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "sync-data": "node scripts/sync-data.mjs",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
+  },
+  "dependencies": {
+    "pinyin-pro": "^3.29.4"
+  }
+}

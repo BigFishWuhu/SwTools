@@ -1,0 +1,12 @@
+{
+  "source": "SWGT",
+  "sourceUrl": "https://swgt.io/controllers/tools/monsterCatalog?displayAs=GRID",
+  "chineseNamesSource": "SWKit",
+  "chineseNamesUrl": "https://www.swkit.fun/data/sw_bestiary-260731.json",
+  "chineseNamesVersion": "260731",
+  "historicalFallback": "SWARFARM",
+  "generatedAt": "2026-09-26T05:22:11.235Z",
+  "currentForms": 940,
+  "historicalForms": 3089,
+  "entries": 940
+}
